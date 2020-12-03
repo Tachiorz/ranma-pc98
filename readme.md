@@ -4,8 +4,8 @@ Default CS for ranma hdi image : 090f
 Looking for print
 -----------------
 
-1000:3497 INT 18h AH 14h
-INT 18h Function 14h: read font pattern 16 dot
+1000:3497 INT 18h AH 14h  
+INT 18h Function 14h: read font pattern 16 dot  
 
        1000:3fd4 e8 66 f4        CALL       FUN_1000_343d                                    undefined FUN_1000_343d()
        1000:3f6d e8 04 00        CALL       FUN_1000_3f74                                    undefined FUN_1000_3f74()
@@ -30,23 +30,34 @@ Opcodes
 -------
 todo: untangle this clusterfuck
 
-OP < 0x3f : FUN_1000_2499()
-	while True:
-		OP == 0x40 : break
-		OP < 0x40 :
-OP >= 0x3f and (OP < 0x60 or OP > 0xaf): \*(undefined2 \*)0x8726 = 1;
-OP >= 0x60 and OP <= 0xaf : call [OP\*4 + 0x3c]
+       OP < 0x3f : FUN_1000_2499()
+              while True:
+                     OP == 0x40 : break
+                     OP < 0x40 :
+       OP >= 0x3f and (OP < 0x60 or OP > 0xaf): \*(undefined2 \*)0x8726 = 1;
+       OP >= 0x60 and OP <= 0xaf : call [OP\*4 + 0x3c]
 
 
 SCENE read
 ----------
-$090f:9765 (12855): File A:SCENE_00.COM opened w/handle 0 (filename loc: 68fde)
-$090f:9745 (12835): file 5: read 6000 bytes to $847b:0006 (847b6)
+090f:9765 (12855): File A:SCENE_00.COM opened w/handle 0 (filename loc: 68fde)  
+090f:9745 (12835): file 5: read 6000 bytes to $847b:0006 (847b6)  
+
+FUN_1000_6e6a : open, read amd close scene file  
+[0x5fae] - file name address  
+
+FUN_1000_0552  
+one of results [0x872c] - maybe start address of the scene file  
 
 
 Tracking for start of SCENE interpretation
 ------------------------------------------
-[0x8730] - instruction counter
+[0x8730] - instruction counter  
+in  1000:026d CALL       FUN_1000_0407 based on results of FUN_1000_0552  
+Offset to start of bytecode are taken from arbitrary count of offsets (at least one) from start of SCENE file.  
+Increased by 1 in FUN_1000_0590
 
-initialised somwhere in  1000:026d CALL       FUN_1000_0407 from [0x8744]
-
+Interpreter
+-----------
+FUN_1000_04a0  
+Iterprete SCENE file until OP != 0x63
