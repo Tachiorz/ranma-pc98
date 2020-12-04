@@ -28,14 +28,27 @@ Opcode dispatch
 
 Opcodes
 -------
-todo: untangle this clusterfuck
+todo: untangle this clusterfuck  
+FUN_1000_0512  
+    OP < 0x3f :
+        FUN_1000_2499()
+            read pair of bytes, increase counter by 2
+            while OP != 0x40:
+                if OP < 0x40:
+                    read pair of bytes, increase counter by 2
+                    todo: 
+                else:
+                    if OP == 0x65:
+                        todo: 
+                    else:
+                        if OP < 0x60 or OP >= 0xaf:
+                            todo:
+                        else:
+                            call FUN_1000_0512 recursively
+            OP == 0x40 : increase counter by 1, break
 
-       OP < 0x3f : FUN_1000_2499()
-              while True:
-                     OP == 0x40 : break
-                     OP < 0x40 :
-       OP >= 0x3f and (OP < 0x60 or OP > 0xaf): \*(undefined2 \*)0x8726 = 1;
-       OP >= 0x60 and OP <= 0xaf : call [OP\*4 + 0x3c]
+    OP >= 0x3f and (OP < 0x60 or OP >= 0xaf): \*(undefined2 \*)0x8726 = 1;
+    OP >= 0x60 and OP < 0xaf : call [OP\*4 + 0x3c] (starts at ds:0x01bc)
 
 
 SCENE read
